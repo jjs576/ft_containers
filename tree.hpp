@@ -1152,7 +1152,7 @@ namespace ft
 	typename _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::size_type _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::erase(const _Key &__x)
 	{
 		pair<iterator, iterator> __p = equal_range(__x);
-		size_type __n = distance(__p.first, __p.second);
+		size_type __n = ft::distance(__p.first, __p.second);
 		erase(__p.first, __p.second);
 		return __n;
 	}

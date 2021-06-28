@@ -147,7 +147,7 @@ namespace ft
 		}
 		catch (...)
 		{
-			_Destroy(__first, __cur, __alloc);
+			ft::_Destroy(__first, __cur, __alloc);
 			throw;
 		}
 	}
@@ -190,7 +190,7 @@ namespace ft
 		}
 		catch (...)
 		{
-			_Destroy(__result, __mid, __alloc);
+			ft::_Destroy(__result, __mid, __alloc);
 			throw;
 		}
 	}
@@ -205,7 +205,7 @@ namespace ft
 		}
 		catch (...)
 		{
-			_Destroy(__result, __mid, __alloc);
+			ft::_Destroy(__result, __mid, __alloc);
 			throw;
 		}
 	}
@@ -220,7 +220,7 @@ namespace ft
 		}
 		catch (...)
 		{
-			_Destroy(__first2, __mid2, __alloc);
+			ft::_Destroy(__first2, __mid2, __alloc);
 			throw;
 		}
 	}

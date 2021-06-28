@@ -88,7 +88,7 @@ namespace ft
 	template <typename _InputIterator>
 	inline typename iterator_traits<_InputIterator>::difference_type distance(_InputIterator __first, _InputIterator __last)
 	{
-		return __distance(__first, __last, __iterator_category(__first));
+		return __distance(__first, __last, ft::__iterator_category(__first));
 	}
 
 	template <typename _InputIterator, typename _Distance>
@@ -118,7 +118,7 @@ namespace ft
 	template <typename _InputIterator, typename _Distance>
 	inline void advance(_InputIterator &__i, _Distance __n)
 	{
-		__advance(__i, __n, __iterator_category(__i));
+		__advance(__i, __n, ft::__iterator_category(__i));
 	}
 
 	// reverse iterator

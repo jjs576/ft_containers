@@ -845,7 +845,7 @@ namespace ft
 		template <typename _ForwardIterator>
 		void _M_assign_aux(_ForwardIterator __first, _ForwardIterator __last, forward_iterator_tag)
 		{
-			const size_type __len = distance(__first, __last);
+			const size_type __len = ft::distance(__first, __last);
 			if (__len > size())
 			{
 				_ForwardIterator __mid = __first;
@@ -939,13 +939,13 @@ namespace ft
 		template <typename _InputIterator>
 		void _M_range_insert_aux(iterator __pos, _InputIterator __first, _InputIterator __last, input_iterator_tag)
 		{
-			copy(__first, __last, inserter(*this, __pos));
+			ft::copy(__first, __last, inserter(*this, __pos));
 		}
 
 		template <typename _ForwardIterator>
 		void _M_range_insert_aux(iterator __pos, _ForwardIterator __first, _ForwardIterator __last, forward_iterator_tag)
 		{
-			const size_type __n = distance(__first, __last);
+			const size_type __n = ft::distance(__first, __last);
 			if (__pos._M_cur == this->_M_impl._M_start._M_cur)
 			{
 				iterator __new_start = _M_reserve_elements_at_front(__n);
@@ -1139,7 +1139,7 @@ namespace ft
 					else
 					{
 						_ForwardIterator __mid = __first;
-						advance(__mid, difference_type(__n) - __elemsbefore);
+						ft::advance(__mid, difference_type(__n) - __elemsbefore);
 						__uninitialized_copy_copy(this->_M_impl._M_start, __pos, __first, __mid, __new_start, this->get_allocator());
 						this->_M_impl._M_start = __new_start;
 						ft::copy(__mid, __last, __old_start);
