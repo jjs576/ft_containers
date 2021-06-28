@@ -43,7 +43,7 @@ namespace ft
 	inline void _Destroy(_ForwardIterator __first, _ForwardIterator __last)
 	{
 		typedef typename iterator_traits<_ForwardIterator>::value_type _Value_type;
-		typedef typename __is_scalar<_Value_type>::__type _Has_trivial_destructor;
+		typedef typename is_scalar<_Value_type>::__type _Has_trivial_destructor;
 
 		ft::__destroy_aux(__first, __last, _Has_trivial_destructor());
 	}

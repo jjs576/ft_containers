@@ -6,9 +6,11 @@ namespace ft
 
 	template <typename _Iterator, typename _Container>
 	class __normal_iterator;
+
 	struct __true_type
 	{
 	};
+
 	struct __false_type
 	{
 	};
@@ -67,7 +69,7 @@ namespace ft
 	};
 
 	template <typename _Tp>
-	struct __is_void
+	struct is_void
 	{
 		enum
 		{
@@ -77,7 +79,7 @@ namespace ft
 	};
 
 	template <>
-	struct __is_void<void>
+	struct is_void<void>
 	{
 		enum
 		{
@@ -89,7 +91,7 @@ namespace ft
 	// Integer types
 
 	template <typename _Tp>
-	struct __is_integer
+	struct is_integer
 	{
 		enum
 		{
@@ -99,7 +101,7 @@ namespace ft
 	};
 
 	template <>
-	struct __is_integer<bool>
+	struct is_integer<bool>
 	{
 		enum
 		{
@@ -109,7 +111,7 @@ namespace ft
 	};
 
 	template <>
-	struct __is_integer<char>
+	struct is_integer<char>
 	{
 		enum
 		{
@@ -119,7 +121,7 @@ namespace ft
 	};
 
 	template <>
-	struct __is_integer<signed char>
+	struct is_integer<signed char>
 	{
 		enum
 		{
@@ -129,7 +131,7 @@ namespace ft
 	};
 
 	template <>
-	struct __is_integer<unsigned char>
+	struct is_integer<unsigned char>
 	{
 		enum
 		{
@@ -139,7 +141,7 @@ namespace ft
 	};
 
 	template <>
-	struct __is_integer<short>
+	struct is_integer<short>
 	{
 		enum
 		{
@@ -149,7 +151,7 @@ namespace ft
 	};
 
 	template <>
-	struct __is_integer<unsigned short>
+	struct is_integer<unsigned short>
 	{
 		enum
 		{
@@ -159,7 +161,7 @@ namespace ft
 	};
 
 	template <>
-	struct __is_integer<int>
+	struct is_integer<int>
 	{
 		enum
 		{
@@ -169,7 +171,7 @@ namespace ft
 	};
 
 	template <>
-	struct __is_integer<unsigned int>
+	struct is_integer<unsigned int>
 	{
 		enum
 		{
@@ -179,7 +181,7 @@ namespace ft
 	};
 
 	template <>
-	struct __is_integer<long>
+	struct is_integer<long>
 	{
 		enum
 		{
@@ -189,7 +191,7 @@ namespace ft
 	};
 
 	template <>
-	struct __is_integer<unsigned long>
+	struct is_integer<unsigned long>
 	{
 		enum
 		{
@@ -199,7 +201,7 @@ namespace ft
 	};
 
 	template <>
-	struct __is_integer<long long>
+	struct is_integer<long long>
 	{
 		enum
 		{
@@ -209,7 +211,7 @@ namespace ft
 	};
 
 	template <>
-	struct __is_integer<unsigned long long>
+	struct is_integer<unsigned long long>
 	{
 		enum
 		{
@@ -221,7 +223,7 @@ namespace ft
 	// Floating point types
 
 	template <typename _Tp>
-	struct __is_floating
+	struct is_floating
 	{
 		enum
 		{
@@ -231,7 +233,7 @@ namespace ft
 	};
 
 	template <>
-	struct __is_floating<float>
+	struct is_floating<float>
 	{
 		enum
 		{
@@ -241,7 +243,7 @@ namespace ft
 	};
 
 	template <>
-	struct __is_floating<double>
+	struct is_floating<double>
 	{
 		enum
 		{
@@ -251,7 +253,7 @@ namespace ft
 	};
 
 	template <>
-	struct __is_floating<long double>
+	struct is_floating<long double>
 	{
 		enum
 		{
@@ -263,7 +265,7 @@ namespace ft
 	// Pointer types
 
 	template <typename _Tp>
-	struct __is_pointer
+	struct is_pointer
 	{
 		enum
 		{
@@ -273,7 +275,7 @@ namespace ft
 	};
 
 	template <typename _Tp>
-	struct __is_pointer<_Tp *>
+	struct is_pointer<_Tp *>
 	{
 		enum
 		{
@@ -285,7 +287,7 @@ namespace ft
 	// Normal iterator type
 
 	template <typename _Tp>
-	struct __is_normal_iterator
+	struct is_normal_iterator
 	{
 		enum
 		{
@@ -295,7 +297,7 @@ namespace ft
 	};
 
 	template <typename _Iterator, typename _Container>
-	struct __is_normal_iterator<__normal_iterator<_Iterator, _Container> >
+	struct is_normal_iterator<__normal_iterator<_Iterator, _Container> >
 	{
 		enum
 		{
@@ -305,16 +307,16 @@ namespace ft
 	};
 
 	template <typename _Tp>
-	struct __is_arithmetic
-		: public __traitor<__is_integer<_Tp>, __is_floating<_Tp> >{};
+	struct is_arithmetic
+		: public __traitor<is_integer<_Tp>, is_floating<_Tp> >{};
 
 	template <typename _Tp>
-	struct __is_fundamental
-		: public __traitor<__is_void<_Tp>, __is_arithmetic<_Tp> >{};
+	struct is_fundamental
+		: public __traitor<is_void<_Tp>, is_arithmetic<_Tp> >{};
 
 	template <typename _Tp>
-	struct __is_scalar
-		: public __traitor<__is_arithmetic<_Tp>, __is_pointer<_Tp> >{};
+	struct is_scalar
+		: public __traitor<is_arithmetic<_Tp>, is_pointer<_Tp> >{};
 
 	typedef char __one;
 	typedef char __two[2];
@@ -325,7 +327,7 @@ namespace ft
 	__two &__test_type(...);
 
 	template <typename _Tp>
-	struct __is_pod
+	struct is_pod
 	{
 		enum
 		{

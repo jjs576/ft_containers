@@ -303,9 +303,6 @@ namespace ft
 	template <typename _Tp, typename _Alloc = std::allocator<_Tp> >
 	class list : protected _List_base<_Tp, _Alloc>
 	{
-		// concept requirements
-		__glibcxx_class_requires(_Tp, _SGIAssignableConcept)
-
 			typedef _List_base<_Tp, _Alloc> _Base;
 
 	public:
@@ -339,7 +336,7 @@ namespace ft
 			catch (...)
 			{
 				_M_put_node(__p);
-				__throw_exception_again;
+				throw;
 			}
 			return __p;
 		}
@@ -395,7 +392,7 @@ namespace ft
 		template <typename _InputIterator>
 		void assign(_InputIterator __first, _InputIterator __last)
 		{
-			typedef typename __is_integer<_InputIterator>::__type _Integral;
+			typedef typename is_integer<_InputIterator>::__type _Integral;
 			_M_assign_dispatch(__first, __last, _Integral());
 		}
 
@@ -533,7 +530,7 @@ namespace ft
 		void insert(iterator __position, _InputIterator __first,
 					_InputIterator __last)
 		{
-			typedef typename __is_integer<_InputIterator>::__type _Integral;
+			typedef typename is_integer<_InputIterator>::__type _Integral;
 			_M_insert_dispatch(__position, __first, __last, _Integral());
 		}
 

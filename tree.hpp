@@ -592,7 +592,7 @@ namespace ft
 			catch (...)
 			{
 				_M_put_node(__tmp);
-				__throw_exception_again;
+				throw;
 			}
 			return __tmp;
 		}
@@ -613,7 +613,7 @@ namespace ft
 		}
 
 	protected:
-		template <typename _Key_compare, bool _Is_pod_comparator = __is_pod<_Key_compare>::__value>
+		template <typename _Key_compare, bool _Is_pod_comparator = is_pod<_Key_compare>::__value>
 		struct _Rb_tree_impl : public _Node_allocator
 		{
 			_Key_compare _M_key_compare;
@@ -1184,7 +1184,7 @@ namespace ft
 		catch (...)
 		{
 			_M_erase(__top);
-			__throw_exception_again;
+			throw;
 		}
 		return __top;
 	}

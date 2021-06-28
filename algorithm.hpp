@@ -136,7 +136,7 @@ namespace ft
 		typedef typename iterator_traits<_II>::value_type _ValueTypeI;
 		typedef typename iterator_traits<_OI>::value_type _ValueTypeO;
 		typedef typename iterator_traits<_II>::iterator_category _Category;
-		const bool __simple = (__is_scalar<_ValueTypeI>::__value && __is_pointer<_II>::__value && __is_pointer<_OI>::__value && __are_same<_ValueTypeI, _ValueTypeO>::__value);
+		const bool __simple = (is_scalar<_ValueTypeI>::__value && is_pointer<_II>::__value && is_pointer<_OI>::__value && __are_same<_ValueTypeI, _ValueTypeO>::__value);
 
 		return __copy<__simple, _Category>::copy(__first, __last, __result);
 	}
@@ -185,8 +185,8 @@ namespace ft
 	template <typename _InputIterator, typename _OutputIterator>
 	inline _OutputIterator copy(_InputIterator __first, _InputIterator __last, _OutputIterator __result)
 	{
-		const bool __in = __is_normal_iterator<_InputIterator>::__value;
-		const bool __out = __is_normal_iterator<_OutputIterator>::__value;
+		const bool __in = is_normal_iterator<_InputIterator>::__value;
+		const bool __out = is_normal_iterator<_OutputIterator>::__value;
 		return __copy_normal<__in, __out>::copy_n(__first, __last,
 												  __result);
 	}
@@ -234,7 +234,7 @@ namespace ft
 		typedef typename iterator_traits<_BI1>::value_type _ValueType1;
 		typedef typename iterator_traits<_BI2>::value_type _ValueType2;
 		typedef typename iterator_traits<_BI1>::iterator_category _Category;
-		const bool __simple = (__is_scalar<_ValueType1>::__value && __is_pointer<_BI1>::__value && __is_pointer<_BI2>::__value && __are_same<_ValueType1, _ValueType2>::__value);
+		const bool __simple = (is_scalar<_ValueType1>::__value && is_pointer<_BI1>::__value && is_pointer<_BI2>::__value && __are_same<_ValueType1, _ValueType2>::__value);
 
 		return __copy_backward<__simple, _Category>::copy_b(__first, __last, __result);
 	}
@@ -282,8 +282,8 @@ namespace ft
 	template <typename _BI1, typename _BI2>
 	inline _BI2 copy_backward(_BI1 __first, _BI1 __last, _BI2 __result)
 	{
-		const bool __bi1 = __is_normal_iterator<_BI1>::__value;
-		const bool __bi2 = __is_normal_iterator<_BI2>::__value;
+		const bool __bi1 = is_normal_iterator<_BI1>::__value;
+		const bool __bi2 = is_normal_iterator<_BI2>::__value;
 		return __copy_backward_normal<__bi1, __bi2>::copy_b_n(__first, __last, __result);
 	}
 
@@ -314,7 +314,7 @@ namespace ft
 	template <typename _ForwardIterator, typename _Tp>
 	void fill(_ForwardIterator __first, _ForwardIterator __last, const _Tp &__value)
 	{
-		const bool __scalar = __is_scalar<_Tp>::__value;
+		const bool __scalar = is_scalar<_Tp>::__value;
 		__fill<__scalar>::fill(__first, __last, __value);
 	}
 
@@ -364,7 +364,7 @@ namespace ft
 	template <typename _OutputIterator, typename _Size, typename _Tp>
 	_OutputIterator fill_n(_OutputIterator __first, _Size __n, const _Tp &__value)
 	{
-		const bool __scalar = __is_scalar<_Tp>::__value;
+		const bool __scalar = is_scalar<_Tp>::__value;
 		return __fill_n<__scalar>::fill_n(__first, __n, __value);
 	}
 

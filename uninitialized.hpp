@@ -26,7 +26,7 @@ namespace ft
 		catch (...)
 		{
 			_Destroy(__result, __cur);
-			__throw_exception_again;
+			throw;
 		}
 	}
 
@@ -34,7 +34,7 @@ namespace ft
 	inline _ForwardIterator uninitialized_copy(_InputIterator __first, _InputIterator __last, _ForwardIterator __result)
 	{
 		typedef typename iterator_traits<_ForwardIterator>::value_type _ValueType;
-		typedef typename __is_scalar<_ValueType>::__type _Is_POD;
+		typedef typename is_scalar<_ValueType>::__type _Is_POD;
 		return __uninitialized_copy_aux(__first, __last, __result, _Is_POD());
 	}
 
@@ -69,7 +69,7 @@ namespace ft
 		catch (...)
 		{
 			_Destroy(__first, __cur);
-			__throw_exception_again;
+			throw;
 		}
 	}
 
@@ -78,7 +78,7 @@ namespace ft
 	uninitialized_fill(_ForwardIterator __first, _ForwardIterator __last, const _Tp &__x)
 	{
 		typedef typename iterator_traits<_ForwardIterator>::value_type _ValueType;
-		typedef typename __is_scalar<_ValueType>::__type _Is_POD;
+		typedef typename is_scalar<_ValueType>::__type _Is_POD;
 		__uninitialized_fill_aux(__first, __last, __x, _Is_POD());
 	}
 
@@ -101,7 +101,7 @@ namespace ft
 		catch (...)
 		{
 			_Destroy(__first, __cur);
-			__throw_exception_again;
+			throw;
 		}
 	}
 
@@ -109,7 +109,7 @@ namespace ft
 	inline void uninitialized_fill_n(_ForwardIterator __first, _Size __n, const _Tp &__x)
 	{
 		typedef typename iterator_traits<_ForwardIterator>::value_type _ValueType;
-		typedef typename __is_scalar<_ValueType>::__type _Is_POD;
+		typedef typename is_scalar<_ValueType>::__type _Is_POD;
 		__uninitialized_fill_n_aux(__first, __n, __x, _Is_POD());
 	}
 
@@ -126,7 +126,7 @@ namespace ft
 		catch (...)
 		{
 			ft::_Destroy(__result, __cur, __alloc);
-			__throw_exception_again;
+			throw;
 		}
 	}
 
@@ -148,7 +148,7 @@ namespace ft
 		catch (...)
 		{
 			_Destroy(__first, __cur, __alloc);
-			__throw_exception_again;
+			throw;
 		}
 	}
 
@@ -170,7 +170,7 @@ namespace ft
 		catch (...)
 		{
 			ft::_Destroy(__first, __cur, __alloc);
-			__throw_exception_again;
+			throw;
 		}
 	}
 
@@ -191,7 +191,7 @@ namespace ft
 		catch (...)
 		{
 			_Destroy(__result, __mid, __alloc);
-			__throw_exception_again;
+			throw;
 		}
 	}
 
@@ -206,7 +206,7 @@ namespace ft
 		catch (...)
 		{
 			_Destroy(__result, __mid, __alloc);
-			__throw_exception_again;
+			throw;
 		}
 	}
 
@@ -221,7 +221,7 @@ namespace ft
 		catch (...)
 		{
 			_Destroy(__first2, __mid2, __alloc);
-			__throw_exception_again;
+			throw;
 		}
 	}
 

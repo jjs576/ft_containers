@@ -46,103 +46,87 @@ namespace ft
 	public:
 		explicit queue(const _Sequence &__c = _Sequence()) : c(__c) {}
 
-		bool
-		empty() const
+		bool empty() const
 		{
 			return c.empty();
 		}
 
-		size_type
-		size() const
+		size_type size() const
 		{
 			return c.size();
 		}
 
-		reference
-		front()
+		reference front()
 		{
 			return c.front();
 		}
 
-		const_reference
-		front() const
+		const_reference front() const
 		{
 			return c.front();
 		}
 
-		reference
-		back()
+		reference back()
 		{
 			return c.back();
 		}
 
-		const_reference
-		back() const
+		const_reference back() const
 		{
 			return c.back();
 		}
 
-		void
-		push(const value_type &__x)
+		void push(const value_type &__x)
 		{
 			c.push_back(__x);
 		}
 
-		void
-		pop()
+		void pop()
 		{
 			c.pop_front();
 		}
 	};
 
 	template <typename _Tp, typename _Sequence>
-	inline bool
-	operator==(const queue<_Tp, _Sequence> &__x,
-			   const queue<_Tp, _Sequence> &__y)
+	inline bool operator==(const queue<_Tp, _Sequence> &__x, const queue<_Tp, _Sequence> &__y)
 	{
 		return __x.c == __y.c;
 	}
 
 	template <typename _Tp, typename _Sequence>
-	inline bool
-	operator<(const queue<_Tp, _Sequence> &__x, const queue<_Tp, _Sequence> &__y)
+	inline bool operator<(const queue<_Tp, _Sequence> &__x, const queue<_Tp, _Sequence> &__y)
 	{
 		return __x.c < __y.c;
 	}
 
 	template <typename _Tp, typename _Sequence>
-	inline bool
-	operator!=(const queue<_Tp, _Sequence> &__x,
-			   const queue<_Tp, _Sequence> &__y)
+	inline bool operator!=(const queue<_Tp, _Sequence> &__x,
+						const queue<_Tp, _Sequence> &__y)
 	{
 		return !(__x == __y);
 	}
 
 	template <typename _Tp, typename _Sequence>
-	inline bool
-	operator>(const queue<_Tp, _Sequence> &__x, const queue<_Tp, _Sequence> &__y)
+	inline bool operator>(const queue<_Tp, _Sequence> &__x, const queue<_Tp, _Sequence> &__y)
 	{
 		return __y < __x;
 	}
 
 	template <typename _Tp, typename _Sequence>
-	inline bool
-	operator<=(const queue<_Tp, _Sequence> &__x,
-			   const queue<_Tp, _Sequence> &__y)
+	inline bool operator<=(const queue<_Tp, _Sequence> &__x,
+						const queue<_Tp, _Sequence> &__y)
 	{
 		return !(__y < __x);
 	}
 
 	template <typename _Tp, typename _Sequence>
-	inline bool
-	operator>=(const queue<_Tp, _Sequence> &__x,
-			   const queue<_Tp, _Sequence> &__y)
+	inline bool operator>=(const queue<_Tp, _Sequence> &__x,
+						const queue<_Tp, _Sequence> &__y)
 	{
 		return !(__x < __y);
 	}
 
-	template <typename _Tp, typename _Sequence = vector<_Tp>,
-			  typename _Compare = less<typename _Sequence::value_type> >
+	template <typename _Tp, typename _Sequence = vector<_Tp>, typename _Compare = less<typename _Sequence::value_type> >
 	class priority_queue
 	{
 		typedef typename _Sequence::value_type _Sequence_value_type;
@@ -159,38 +143,27 @@ namespace ft
 		_Compare comp;
 
 	public:
-		explicit priority_queue(const _Compare &__x = _Compare(),
-								const _Sequence &__s = _Sequence())
-			: c(__s), comp(__x)
+		explicit priority_queue(const _Compare &__x = _Compare(), const _Sequence &__s = _Sequence()) : c(__s), comp(__x)
 		{
 			make_heap(c.begin(), c.end(), comp);
 		}
 
 		template <typename _InputIterator>
-		priority_queue(_InputIterator __first, _InputIterator __last,
-					   const _Compare &__x = _Compare(),
-					   const _Sequence &__s = _Sequence())
-			: c(__s), comp(__x)
+		priority_queue(_InputIterator __first, _InputIterator __last, const _Compare &__x = _Compare(), const _Sequence &__s = _Sequence()) : c(__s), comp(__x)
 		{
-			__glibcxx_requires_valid_range(__first, __last);
 			c.insert(c.end(), __first, __last);
 			make_heap(c.begin(), c.end(), comp);
 		}
 
-		bool
-		empty() const { return c.empty(); }
+		bool empty() const { return c.empty(); }
 
-		size_type
-		size() const { return c.size(); }
+		size_type size() const { return c.size(); }
 
-		const_reference
-		top() const
+		const_reference top() const
 		{
-			__glibcxx_requires_nonempty();
 			return c.front();
 		}
-		void
-		push(const value_type &__x)
+		void push(const value_type &__x)
 		{
 			try
 			{
@@ -200,7 +173,7 @@ namespace ft
 			catch (...)
 			{
 				c.clear();
-				__throw_exception_again;
+				throw;
 			}
 		}
 
@@ -215,7 +188,7 @@ namespace ft
 			catch (...)
 			{
 				c.clear();
-				__throw_exception_again;
+				throw;
 			}
 		}
 	};

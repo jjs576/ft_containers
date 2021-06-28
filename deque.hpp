@@ -329,7 +329,7 @@ namespace ft
 			_M_deallocate_map(this->_M_impl._M_map, this->_M_impl._M_map_size);
 			this->_M_impl._M_map = 0;
 			this->_M_impl._M_map_size = 0;
-			__throw_exception_again;
+			throw;
 		}
 
 		this->_M_impl._M_start._M_set_node(__nstart);
@@ -350,7 +350,7 @@ namespace ft
 		catch (...)
 		{
 			_M_destroy_nodes(__nstart, __cur);
-			__throw_exception_again;
+			throw;
 		}
 	}
 
@@ -421,7 +421,7 @@ namespace ft
 		template <typename _InputIterator>
 		deque(_InputIterator __first, _InputIterator __last, const allocator_type &__a = allocator_type()) : _Base(__a)
 		{
-			typedef typename __is_integer<_InputIterator>::__type _Integral;
+			typedef typename is_integer<_InputIterator>::__type _Integral;
 			_M_initialize_dispatch(__first, __last, _Integral());
 		}
 
@@ -459,7 +459,7 @@ namespace ft
 		void
 		assign(_InputIterator __first, _InputIterator __last)
 		{
-			typedef typename __is_integer<_InputIterator>::__type _Integral;
+			typedef typename is_integer<_InputIterator>::__type _Integral;
 			_M_assign_dispatch(__first, __last, _Integral());
 		}
 
@@ -551,7 +551,7 @@ namespace ft
 		void _M_range_check(size_type __n) const
 		{
 			if (__n >= this->size())
-				std::__throw_out_of_range(__N("deque::_M_range_check"));
+				std::__throw_out_of_range("deque::_M_range_check");
 		}
 
 	public:
@@ -661,7 +661,7 @@ namespace ft
 		template <typename _InputIterator>
 		void insert(iterator __position, _InputIterator __first, _InputIterator __last)
 		{
-			typedef typename __is_integer<_InputIterator>::__type _Integral;
+			typedef typename is_integer<_InputIterator>::__type _Integral;
 			_M_insert_dispatch(__position, __first, __last, _Integral());
 		}
 
@@ -772,7 +772,7 @@ namespace ft
 			catch (...)
 			{
 				clear();
-				__throw_exception_again;
+				throw;
 			}
 		}
 
@@ -797,7 +797,7 @@ namespace ft
 			catch (...)
 			{
 				_Destroy(this->_M_impl._M_start, iterator(*__cur_node, __cur_node), this->get_allocator());
-				__throw_exception_again;
+				throw;
 			}
 		}
 
@@ -813,7 +813,7 @@ namespace ft
 			catch (...)
 			{
 				_Destroy(this->_M_impl._M_start, iterator(*__cur, __cur), this->get_allocator());
-				__throw_exception_again;
+				throw;
 			}
 		}
 
@@ -885,7 +885,7 @@ namespace ft
 			catch (...)
 			{
 				_M_deallocate_node(*(this->_M_impl._M_finish._M_node + 1));
-				__throw_exception_again;
+				throw;
 			}
 		}
 		void _M_push_front_aux(const value_type &__t)
@@ -903,7 +903,7 @@ namespace ft
 			{
 				++this->_M_impl._M_start;
 				_M_deallocate_node(*(this->_M_impl._M_start._M_node - 1));
-				__throw_exception_again;
+				throw;
 			}
 		}
 		void _M_pop_back_aux()
@@ -959,7 +959,7 @@ namespace ft
 				{
 					_M_destroy_nodes(__new_start._M_node,
 									 this->_M_impl._M_start._M_node);
-					__throw_exception_again;
+					throw;
 				}
 			}
 			else if (__pos._M_cur == this->_M_impl._M_finish._M_cur)
@@ -974,7 +974,7 @@ namespace ft
 				{
 					_M_destroy_nodes(this->_M_impl._M_finish._M_node + 1,
 									 __new_finish._M_node + 1);
-					__throw_exception_again;
+					throw;
 				}
 			}
 			else
@@ -997,7 +997,7 @@ namespace ft
 				{
 					_M_destroy_nodes(__new_start._M_node,
 									 this->_M_impl._M_start._M_node);
-					__throw_exception_again;
+					throw;
 				}
 			}
 			else if (__pos._M_cur == this->_M_impl._M_finish._M_cur)
@@ -1014,7 +1014,7 @@ namespace ft
 				{
 					_M_destroy_nodes(this->_M_impl._M_finish._M_node + 1,
 									 __new_finish._M_node + 1);
-					__throw_exception_again;
+					throw;
 				}
 			}
 			else
@@ -1081,7 +1081,7 @@ namespace ft
 				catch (...)
 				{
 					_M_destroy_nodes(__new_start._M_node, this->_M_impl._M_start._M_node);
-					__throw_exception_again;
+					throw;
 				}
 			}
 			else
@@ -1110,7 +1110,7 @@ namespace ft
 				catch (...)
 				{
 					_M_destroy_nodes(this->_M_impl._M_finish._M_node + 1, __new_finish._M_node + 1);
-					__throw_exception_again;
+					throw;
 				}
 			}
 		}
@@ -1148,7 +1148,7 @@ namespace ft
 				catch (...)
 				{
 					_M_destroy_nodes(__new_start._M_node, this->_M_impl._M_start._M_node);
-					__throw_exception_again;
+					throw;
 				}
 			}
 			else
@@ -1179,7 +1179,7 @@ namespace ft
 				catch (...)
 				{
 					_M_destroy_nodes(this->_M_impl._M_finish._M_node + 1, __new_finish._M_node + 1);
-					__throw_exception_again;
+					throw;
 				}
 			}
 		}
@@ -1214,7 +1214,7 @@ namespace ft
 			{
 				for (size_type __j = 1; __j < __i; ++__j)
 					_M_deallocate_node(*(this->_M_impl._M_start._M_node - __j));
-				__throw_exception_again;
+				throw;
 			}
 		}
 
@@ -1232,7 +1232,7 @@ namespace ft
 			{
 				for (size_type __j = 1; __j < __i; ++__j)
 					_M_deallocate_node(*(this->_M_impl._M_finish._M_node + __j));
-				__throw_exception_again;
+				throw;
 			}
 		}
 		void _M_reserve_map_at_back(size_type __nodes_to_add = 1)

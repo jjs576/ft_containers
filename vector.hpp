@@ -106,7 +106,7 @@ namespace ft
 		template <typename _InputIterator>
 		vector(_InputIterator __first, _InputIterator __last, const allocator_type &__a = allocator_type()) : _Base(__a)
 		{
-			typedef typename __is_integer<_InputIterator>::__type _Integral;
+			typedef typename ft::is_integer<_InputIterator>::__type _Integral;
 			_M_initialize_dispatch(__first, __last, _Integral());
 		}
 
@@ -152,7 +152,7 @@ namespace ft
 		template <typename _InputIterator>
 		void assign(_InputIterator __first, _InputIterator __last)
 		{
-			typedef typename __is_integer<_InputIterator>::__type _Integral;
+			typedef typename ft::is_integer<_InputIterator>::__type _Integral;
 			_M_assign_dispatch(__first, __last, _Integral());
 		}
 
@@ -234,7 +234,7 @@ namespace ft
 		void reserve(size_type __n)
 		{
 			if (__n > this->max_size())
-				std::__throw_length_error(__N("vector::reserve"));
+				std::__throw_length_error("vector::reserve");
 			if (this->capacity() < __n)
 			{
 				const size_type __old_size = size();
@@ -262,7 +262,7 @@ namespace ft
 		void _M_range_check(size_type __n) const
 		{
 			if (__n >= this->size())
-				std::__throw_out_of_range(__N("vector::_M_range_check"));
+				std::__throw_out_of_range("vector::_M_range_check");
 		}
 
 	public:
@@ -336,7 +336,7 @@ namespace ft
 		template <typename _InputIterator>
 		void insert(iterator __position, _InputIterator __first, _InputIterator __last)
 		{
-			typedef typename __is_integer<_InputIterator>::__type _Integral;
+			typedef typename ft::is_integer<_InputIterator>::__type _Integral;
 			_M_insert_dispatch(__position, __first, __last, _Integral());
 		}
 
@@ -382,7 +382,7 @@ namespace ft
 			catch (...)
 			{
 				_M_deallocate(__result, __n);
-				__throw_exception_again;
+				throw;
 			}
 		}
 
@@ -544,7 +544,7 @@ namespace ft
 				{
 					const size_type __old_size = size();
 					if (this->max_size() - __old_size < __n)
-						std::__throw_length_error(__N("vector::_M_range_insert"));
+						std::__throw_length_error("vector::_M_range_insert");
 
 					size_type __len = __old_size + max(__old_size, __n);
 					if (__len < __old_size)
@@ -562,7 +562,7 @@ namespace ft
 					{
 						_Destroy(__new_start, __new_finish, this->get_allocator());
 						_M_deallocate(__new_start.base(), __len);
-						__throw_exception_again;
+						throw;
 					}
 					_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish, this->get_allocator());
 					_M_deallocate(this->_M_impl._M_start, this->_M_impl._M_end_of_storage - this->_M_impl._M_start);
@@ -602,7 +602,7 @@ namespace ft
 				{
 					const size_type __old_size = size();
 					if (this->max_size() - __old_size < __n)
-						std::__throw_length_error(__N("vector::_M_fill_insert"));
+						std::__throw_length_error("vector::_M_fill_insert");
 
 					size_type __len = __old_size + max(__old_size, __n);
 					if (__len < __old_size)
@@ -621,7 +621,7 @@ namespace ft
 					{
 						_Destroy(__new_start, __new_finish, this->get_allocator());
 						_M_deallocate(__new_start.base(), __len);
-						__throw_exception_again;
+						throw;
 					}
 					_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish, this->get_allocator());
 					_M_deallocate(this->_M_impl._M_start, this->_M_impl._M_end_of_storage - this->_M_impl._M_start);
@@ -647,7 +647,7 @@ namespace ft
 			{
 				const size_type __old_size = size();
 				if (__old_size == this->max_size())
-					std::__throw_length_error(__N("vector::_M_insert_aux"));
+					std::__throw_length_error("vector::_M_insert_aux");
 
 				size_type __len = __old_size != 0 ? 2 * __old_size : 1;
 				if (__len < __old_size)
@@ -668,7 +668,7 @@ namespace ft
 				{
 					_Destroy(__new_start, __new_finish, this->get_allocator());
 					_M_deallocate(__new_start.base(), __len);
-					__throw_exception_again;
+					throw;
 				}
 				_Destroy(begin(), end(), this->get_allocator());
 				_M_deallocate(this->_M_impl._M_start,
