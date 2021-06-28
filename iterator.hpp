@@ -401,6 +401,7 @@ namespace ft
 	protected:
 		_Iterator _M_current;
 
+
 	public:
 		typedef typename iterator_traits<_Iterator>::iterator_category iterator_category;
 		typedef typename iterator_traits<_Iterator>::value_type value_type;

@@ -88,19 +88,19 @@ namespace ft
 
 		vector(size_type __n, const value_type &__value, const allocator_type &__a = allocator_type()) : _Base(__n, __a)
 		{
-			__uninitialized_fill_n_a(this->_M_impl._M_start, __n, __value, this->get_allocator());
+			ft::__uninitialized_fill_n_a(this->_M_impl._M_start, __n, __value, this->get_allocator());
 			this->_M_impl._M_finish = this->_M_impl._M_start + __n;
 		}
 
 		explicit vector(size_type __n) : _Base(__n, allocator_type())
 		{
-			__uninitialized_fill_n_a(this->_M_impl._M_start, __n, value_type(), this->get_allocator());
+			ft::__uninitialized_fill_n_a(this->_M_impl._M_start, __n, value_type(), this->get_allocator());
 			this->_M_impl._M_finish = this->_M_impl._M_start + __n;
 		}
 
 		vector(const vector &__x) : _Base(__x.size(), __x.get_allocator())
 		{
-			this->_M_impl._M_finish = __uninitialized_copy_a(__x.begin(), __x.end(), this->_M_impl._M_start, this->get_allocator());
+			this->_M_impl._M_finish = ft::__uninitialized_copy_a(__x.begin(), __x.end(), this->_M_impl._M_start, this->get_allocator());
 		}
 
 		template <typename _InputIterator>
@@ -112,7 +112,7 @@ namespace ft
 
 		~vector()
 		{
-			_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish, this->get_allocator());
+			ft::_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish, this->get_allocator());
 		}
 
 		vector &operator=(const vector &__x)
@@ -123,7 +123,7 @@ namespace ft
 				if (__xlen > capacity())
 				{
 					pointer __tmp = _M_allocate_and_copy(__xlen, __x.begin(), __x.end());
-					_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish, this->get_allocator());
+					ft::_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish, this->get_allocator());
 					_M_deallocate(this->_M_impl._M_start, this->_M_impl._M_end_of_storage - this->_M_impl._M_start);
 					this->_M_impl._M_start = __tmp;
 					this->_M_impl._M_end_of_storage = this->_M_impl._M_start + __xlen;
@@ -131,7 +131,7 @@ namespace ft
 				else if (size() >= __xlen)
 				{
 					iterator __i(copy(__x.begin(), __x.end(), begin()));
-					_Destroy(__i, end(), this->get_allocator());
+					ft::_Destroy(__i, end(), this->get_allocator());
 				}
 				else
 				{
@@ -239,8 +239,7 @@ namespace ft
 			{
 				const size_type __old_size = size();
 				pointer __tmp = _M_allocate_and_copy(__n, this->_M_impl._M_start, this->_M_impl._M_finish);
-				_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish,
-							  this->get_allocator());
+				ft::_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish, this->get_allocator());
 				_M_deallocate(this->_M_impl._M_start, this->_M_impl._M_end_of_storage - this->_M_impl._M_start);
 				this->_M_impl._M_start = __tmp;
 				this->_M_impl._M_finish = __tmp + __old_size;
@@ -343,7 +342,7 @@ namespace ft
 		iterator erase(iterator __position)
 		{
 			if (__position + 1 != end())
-				copy(__position + 1, end(), __position);
+				ft::copy(__position + 1, end(), __position);
 			--this->_M_impl._M_finish;
 			this->_M_impl.destroy(this->_M_impl._M_finish);
 			return __position;
@@ -351,17 +350,17 @@ namespace ft
 
 		iterator erase(iterator __first, iterator __last)
 		{
-			iterator __i(copy(__last, end(), __first));
-			_Destroy(__i, end(), this->get_allocator());
+			iterator __i(ft::copy(__last, end(), __first));
+			ft::_Destroy(__i, end(), this->get_allocator());
 			this->_M_impl._M_finish = this->_M_impl._M_finish - (__last - __first);
 			return __first;
 		}
 
 		void swap(vector &__x)
 		{
-			swap(this->_M_impl._M_start, __x._M_impl._M_start);
-			swap(this->_M_impl._M_finish, __x._M_impl._M_finish);
-			swap(this->_M_impl._M_end_of_storage, __x._M_impl._M_end_of_storage);
+			ft::swap(this->_M_impl._M_start, __x._M_impl._M_start);
+			ft::swap(this->_M_impl._M_finish, __x._M_impl._M_finish);
+			ft::swap(this->_M_impl._M_end_of_storage, __x._M_impl._M_end_of_storage);
 		}
 
 		void clear()
@@ -376,7 +375,7 @@ namespace ft
 			pointer __result = this->_M_allocate(__n);
 			try
 			{
-				__uninitialized_copy_a(__first, __last, __result, this->get_allocator());
+				ft::__uninitialized_copy_a(__first, __last, __result, this->get_allocator());
 				return __result;
 			}
 			catch (...)
@@ -391,7 +390,7 @@ namespace ft
 		{
 			this->_M_impl._M_start = _M_allocate(__n);
 			this->_M_impl._M_end_of_storage = this->_M_impl._M_start + __n;
-			__uninitialized_fill_n_a(this->_M_impl._M_start, __n, __value, this->get_allocator());
+			ft::__uninitialized_fill_n_a(this->_M_impl._M_start, __n, __value, this->get_allocator());
 			this->_M_impl._M_finish = this->_M_impl._M_end_of_storage;
 		}
 
@@ -412,10 +411,10 @@ namespace ft
 		template <typename _ForwardIterator>
 		void _M_range_initialize(_ForwardIterator __first, _ForwardIterator __last, forward_iterator_tag)
 		{
-			const size_type __n = distance(__first, __last);
+			const size_type __n = ft::distance(__first, __last);
 			this->_M_impl._M_start = this->_M_allocate(__n);
 			this->_M_impl._M_end_of_storage = this->_M_impl._M_start + __n;
-			this->_M_impl._M_finish = __uninitialized_copy_a(__first, __last, this->_M_impl._M_start, this->get_allocator());
+			this->_M_impl._M_finish = ft::__uninitialized_copy_a(__first, __last, this->_M_impl._M_start, this->get_allocator());
 		}
 
 		template <typename _Integer>
@@ -446,12 +445,12 @@ namespace ft
 		template <typename _ForwardIterator>
 		void _M_assign_aux(_ForwardIterator __first, _ForwardIterator __last, forward_iterator_tag)
 		{
-			const size_type __len = distance(__first, __last);
+			const size_type __len = ft::distance(__first, __last);
 
 			if (__len > capacity())
 			{
 				pointer __tmp(_M_allocate_and_copy(__len, __first, __last));
-				_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish, this->get_allocator());
+				ft::_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish, this->get_allocator());
 				_M_deallocate(this->_M_impl._M_start, this->_M_impl._M_end_of_storage - this->_M_impl._M_start);
 				this->_M_impl._M_start = __tmp;
 				this->_M_impl._M_finish = this->_M_impl._M_start + __len;
@@ -459,16 +458,16 @@ namespace ft
 			}
 			else if (size() >= __len)
 			{
-				iterator __new_finish(copy(__first, __last, this->_M_impl._M_start));
-				_Destroy(__new_finish, end(), this->get_allocator());
+				iterator __new_finish(ft::copy(__first, __last, this->_M_impl._M_start));
+				ft::_Destroy(__new_finish, end(), this->get_allocator());
 				this->_M_impl._M_finish = __new_finish.base();
 			}
 			else
 			{
 				_ForwardIterator __mid = __first;
-				advance(__mid, size());
-				copy(__first, __mid, this->_M_impl._M_start);
-				this->_M_impl._M_finish = __uninitialized_copy_a(__mid, __last, this->_M_impl._M_finish, this->get_allocator());
+				ft::advance(__mid, size());
+				ft::copy(__first, __mid, this->_M_impl._M_start);
+				this->_M_impl._M_finish = ft::__uninitialized_copy_a(__mid, __last, this->_M_impl._M_finish, this->get_allocator());
 			}
 		}
 
@@ -481,12 +480,12 @@ namespace ft
 			}
 			else if (__n > size())
 			{
-				fill(begin(), end(), __val);
-				__uninitialized_fill_n_a(this->_M_impl._M_finish, __n - size(), __val, this->get_allocator());
+				ft::fill(begin(), end(), __val);
+				ft::__uninitialized_fill_n_a(this->_M_impl._M_finish, __n - size(), __val, this->get_allocator());
 				this->_M_impl._M_finish += __n - size();
 			}
 			else
-				erase(fill_n(begin(), __n, __val), end());
+				erase(ft::fill_n(begin(), __n, __val), end());
 		}
 
 		template <typename _Integer>
@@ -517,27 +516,27 @@ namespace ft
 		{
 			if (__first != __last)
 			{
-				const size_type __n = distance(__first, __last);
+				const size_type __n = ft::distance(__first, __last);
 				if (size_type(this->_M_impl._M_end_of_storage - this->_M_impl._M_finish) >= __n)
 				{
 					const size_type __elems_after = end() - __position;
 					iterator __old_finish(this->_M_impl._M_finish);
 					if (__elems_after > __n)
 					{
-						__uninitialized_copy_a(this->_M_impl._M_finish - __n, this->_M_impl._M_finish, this->_M_impl._M_finish, this->get_allocator());
+						ft::__uninitialized_copy_a(this->_M_impl._M_finish - __n, this->_M_impl._M_finish, this->_M_impl._M_finish, this->get_allocator());
 						this->_M_impl._M_finish += __n;
-						copy_backward(__position, __old_finish - __n, __old_finish);
-						copy(__first, __last, __position);
+						ft::copy_backward(__position, __old_finish - __n, __old_finish);
+						ft::copy(__first, __last, __position);
 					}
 					else
 					{
 						_ForwardIterator __mid = __first;
-						advance(__mid, __elems_after);
-						__uninitialized_copy_a(__mid, __last, this->_M_impl._M_finish, this->get_allocator());
+						ft::advance(__mid, __elems_after);
+						ft::__uninitialized_copy_a(__mid, __last, this->_M_impl._M_finish, this->get_allocator());
 						this->_M_impl._M_finish += __n - __elems_after;
-						__uninitialized_copy_a(__position, __old_finish, this->_M_impl._M_finish, this->get_allocator());
+						ft::__uninitialized_copy_a(__position, __old_finish, this->_M_impl._M_finish, this->get_allocator());
 						this->_M_impl._M_finish += __elems_after;
-						copy(__first, __mid, __position);
+						ft::copy(__first, __mid, __position);
 					}
 				}
 				else
@@ -554,17 +553,17 @@ namespace ft
 					iterator __new_finish(__new_start);
 					try
 					{
-						__new_finish = __uninitialized_copy_a(iterator(this->_M_impl._M_start), __position, __new_start, this->get_allocator());
-						__new_finish = __uninitialized_copy_a(__first, __last, __new_finish, this->get_allocator());
-						__new_finish = __uninitialized_copy_a(__position, iterator(this->_M_impl._M_finish), __new_finish, this->get_allocator());
+						__new_finish = ft::__uninitialized_copy_a(iterator(this->_M_impl._M_start), __position, __new_start, this->get_allocator());
+						__new_finish = ft::__uninitialized_copy_a(__first, __last, __new_finish, this->get_allocator());
+						__new_finish = ft::__uninitialized_copy_a(__position, iterator(this->_M_impl._M_finish), __new_finish, this->get_allocator());
 					}
 					catch (...)
 					{
-						_Destroy(__new_start, __new_finish, this->get_allocator());
+						ft::_Destroy(__new_start, __new_finish, this->get_allocator());
 						_M_deallocate(__new_start.base(), __len);
 						throw;
 					}
-					_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish, this->get_allocator());
+					ft::_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish, this->get_allocator());
 					_M_deallocate(this->_M_impl._M_start, this->_M_impl._M_end_of_storage - this->_M_impl._M_start);
 					this->_M_impl._M_start = __new_start.base();
 					this->_M_impl._M_finish = __new_finish.base();
@@ -584,18 +583,18 @@ namespace ft
 					iterator __old_finish(this->_M_impl._M_finish);
 					if (__elems_after > __n)
 					{
-						__uninitialized_copy_a(this->_M_impl._M_finish - __n, this->_M_impl._M_finish, this->_M_impl._M_finish, this->get_allocator());
+						ft::__uninitialized_copy_a(this->_M_impl._M_finish - __n, this->_M_impl._M_finish, this->_M_impl._M_finish, this->get_allocator());
 						this->_M_impl._M_finish += __n;
-						copy_backward(__position, __old_finish - __n, __old_finish);
-						fill(__position, __position + __n, __x_copy);
+						ft::copy_backward(__position, __old_finish - __n, __old_finish);
+						ft::fill(__position, __position + __n, __x_copy);
 					}
 					else
 					{
-						__uninitialized_fill_n_a(this->_M_impl._M_finish, __n - __elems_after, __x_copy, this->get_allocator());
+						ft::__uninitialized_fill_n_a(this->_M_impl._M_finish, __n - __elems_after, __x_copy, this->get_allocator());
 						this->_M_impl._M_finish += __n - __elems_after;
-						__uninitialized_copy_a(__position, __old_finish, this->_M_impl._M_finish, this->get_allocator());
+						ft::__uninitialized_copy_a(__position, __old_finish, this->_M_impl._M_finish, this->get_allocator());
 						this->_M_impl._M_finish += __elems_after;
-						fill(__position, __old_finish, __x_copy);
+						ft::fill(__position, __old_finish, __x_copy);
 					}
 				}
 				else
@@ -612,10 +611,10 @@ namespace ft
 					iterator __new_finish(__new_start);
 					try
 					{
-						__new_finish = __uninitialized_copy_a(begin(), __position, __new_start, this->get_allocator());
-						__uninitialized_fill_n_a(__new_finish, __n, __x, this->get_allocator());
+						__new_finish = ft::__uninitialized_copy_a(begin(), __position, __new_start, this->get_allocator());
+						ft::__uninitialized_fill_n_a(__new_finish, __n, __x, this->get_allocator());
 						__new_finish += __n;
-						__new_finish = __uninitialized_copy_a(__position, end(), __new_finish, this->get_allocator());
+						__new_finish = ft::__uninitialized_copy_a(__position, end(), __new_finish, this->get_allocator());
 					}
 					catch (...)
 					{
@@ -640,7 +639,7 @@ namespace ft
 										*(this->_M_impl._M_finish - 1));
 				++this->_M_impl._M_finish;
 				_Tp __x_copy = __x;
-				copy_backward(__position, iterator(this->_M_impl._M_finish - 2), iterator(this->_M_impl._M_finish - 1));
+				ft::copy_backward(__position, iterator(this->_M_impl._M_finish - 2), iterator(this->_M_impl._M_finish - 1));
 				*__position = __x_copy;
 			}
 			else
@@ -657,22 +656,19 @@ namespace ft
 				iterator __new_finish(__new_start);
 				try
 				{
-					__new_finish =
-						__uninitialized_copy_a(iterator(this->_M_impl._M_start), __position, __new_start, this->get_allocator());
+					__new_finish = ft::__uninitialized_copy_a(iterator(this->_M_impl._M_start), __position, __new_start, this->get_allocator());
 					this->_M_impl.construct(__new_finish.base(), __x);
 					++__new_finish;
-					__new_finish =
-						__uninitialized_copy_a(__position, iterator(this->_M_impl._M_finish), __new_finish, this->get_allocator());
+					__new_finish = ft::__uninitialized_copy_a(__position, iterator(this->_M_impl._M_finish), __new_finish, this->get_allocator());
 				}
 				catch (...)
 				{
-					_Destroy(__new_start, __new_finish, this->get_allocator());
+					ft::_Destroy(__new_start, __new_finish, this->get_allocator());
 					_M_deallocate(__new_start.base(), __len);
 					throw;
 				}
-				_Destroy(begin(), end(), this->get_allocator());
-				_M_deallocate(this->_M_impl._M_start,
-							  this->_M_impl._M_end_of_storage - this->_M_impl._M_start);
+				ft::_Destroy(begin(), end(), this->get_allocator());
+				_M_deallocate(this->_M_impl._M_start, this->_M_impl._M_end_of_storage - this->_M_impl._M_start);
 				this->_M_impl._M_start = __new_start.base();
 				this->_M_impl._M_finish = __new_finish.base();
 				this->_M_impl._M_end_of_storage = __new_start.base() + __len;
@@ -683,13 +679,13 @@ namespace ft
 	template <typename _Tp, typename _Alloc>
 	inline bool operator==(const vector<_Tp, _Alloc> &__x, const vector<_Tp, _Alloc> &__y)
 	{
-		return (__x.size() == __y.size() && equal(__x.begin(), __x.end(), __y.begin()));
+		return (__x.size() == __y.size() && ft::equal(__x.begin(), __x.end(), __y.begin()));
 	}
 
 	template <typename _Tp, typename _Alloc>
 	inline bool operator<(const vector<_Tp, _Alloc> &__x, const vector<_Tp, _Alloc> &__y)
 	{
-		return lexicographical_compare(__x.begin(), __x.end(), __y.begin(), __y.end());
+		return ft::lexicographical_compare(__x.begin(), __x.end(), __y.begin(), __y.end());
 	}
 
 	template <typename _Tp, typename _Alloc>

@@ -849,25 +849,25 @@ namespace ft
 			if (__len > size())
 			{
 				_ForwardIterator __mid = __first;
-				advance(__mid, size());
-				copy(__first, __mid, begin());
+				ft::advance(__mid, size());
+				ft::copy(__first, __mid, begin());
 				insert(end(), __mid, __last);
 			}
 			else
-				erase(copy(__first, __last, begin()), end());
+				erase(ft::copy(__first, __last, begin()), end());
 		}
 
 		void _M_fill_assign(size_type __n, const value_type &__val)
 		{
 			if (__n > size())
 			{
-				fill(begin(), end(), __val);
+				ft::fill(begin(), end(), __val);
 				insert(end(), __n - size(), __val);
 			}
 			else
 			{
 				erase(begin() + __n, end());
-				fill(begin(), end(), __val);
+				ft::fill(begin(), end(), __val);
 			}
 		}
 
@@ -1133,8 +1133,8 @@ namespace ft
 						iterator __start_n = (this->_M_impl._M_start + difference_type(__n));
 						__uninitialized_copy_a(this->_M_impl._M_start, __start_n, __new_start, this->get_allocator());
 						this->_M_impl._M_start = __new_start;
-						copy(__start_n, __pos, __old_start);
-						copy(__first, __last, __pos - difference_type(__n));
+						ft::copy(__start_n, __pos, __old_start);
+						ft::copy(__first, __last, __pos - difference_type(__n));
 					}
 					else
 					{
@@ -1142,7 +1142,7 @@ namespace ft
 						advance(__mid, difference_type(__n) - __elemsbefore);
 						__uninitialized_copy_copy(this->_M_impl._M_start, __pos, __first, __mid, __new_start, this->get_allocator());
 						this->_M_impl._M_start = __new_start;
-						copy(__mid, __last, __old_start);
+						ft::copy(__mid, __last, __old_start);
 					}
 				}
 				catch (...)
@@ -1164,16 +1164,16 @@ namespace ft
 						iterator __finish_n = (this->_M_impl._M_finish - difference_type(__n));
 						__uninitialized_copy_a(__finish_n, this->_M_impl._M_finish, this->_M_impl._M_finish, this->get_allocator());
 						this->_M_impl._M_finish = __new_finish;
-						copy_backward(__pos, __finish_n, __old_finish);
-						copy(__first, __last, __pos);
+						ft::copy_backward(__pos, __finish_n, __old_finish);
+						ft::copy(__first, __last, __pos);
 					}
 					else
 					{
 						_ForwardIterator __mid = __first;
-						advance(__mid, __elemsafter);
-						__uninitialized_copy_copy(__mid, __last, __pos, this->_M_impl._M_finish, this->_M_impl._M_finish, this->get_allocator());
+						ft::advance(__mid, __elemsafter);
+						ft::__uninitialized_copy_copy(__mid, __last, __pos, this->_M_impl._M_finish, this->_M_impl._M_finish, this->get_allocator());
 						this->_M_impl._M_finish = __new_finish;
-						copy(__first, __mid, __pos);
+						ft::copy(__first, __mid, __pos);
 					}
 				}
 				catch (...)
