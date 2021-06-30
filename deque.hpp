@@ -427,8 +427,7 @@ namespace ft
 
 		~deque()
 		{
-			ft::_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish,
-					 this->get_allocator());
+			ft::_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish, this->get_allocator());
 		}
 
 		deque &operator=(const deque &__x)
@@ -442,7 +441,7 @@ namespace ft
 				else
 				{
 					const_iterator __mid = __x.begin() + difference_type(__len);
-					copy(__x.begin(), __mid, this->_M_impl._M_start);
+					ft::copy(__x.begin(), __mid, this->_M_impl._M_start);
 					insert(this->_M_impl._M_finish, __mid, __x.end());
 				}
 			}
@@ -672,12 +671,12 @@ namespace ft
 			const size_type __index = __position - this->_M_impl._M_start;
 			if (__index < (size() >> 1))
 			{
-				copy_backward(this->_M_impl._M_start, __position, __next);
+				ft::copy_backward(this->_M_impl._M_start, __position, __next);
 				pop_front();
 			}
 			else
 			{
-				copy(__next, this->_M_impl._M_finish, __position);
+				ft::copy(__next, this->_M_impl._M_finish, __position);
 				pop_back();
 			}
 			return this->_M_impl._M_start + __index;
@@ -696,17 +695,17 @@ namespace ft
 				const difference_type __elems_before = (__first - this->_M_impl._M_start);
 				if (static_cast<size_type>(__elems_before) < (size() - __n) / 2)
 				{
-					copy_backward(this->_M_impl._M_start, __first, __last);
+					ft::copy_backward(this->_M_impl._M_start, __first, __last);
 					iterator __new_start = this->_M_impl._M_start + __n;
-					_Destroy(this->_M_impl._M_start, __new_start, this->get_allocator());
+					ft::_Destroy(this->_M_impl._M_start, __new_start, this->get_allocator());
 					_M_destroy_nodes(this->_M_impl._M_start._M_node, __new_start._M_node);
 					this->_M_impl._M_start = __new_start;
 				}
 				else
 				{
-					copy(__last, this->_M_impl._M_finish, __first);
+					ft::copy(__last, this->_M_impl._M_finish, __first);
 					iterator __new_finish = this->_M_impl._M_finish - __n;
-					_Destroy(__new_finish, this->_M_impl._M_finish, this->get_allocator());
+					ft::_Destroy(__new_finish, this->_M_impl._M_finish, this->get_allocator());
 					_M_destroy_nodes(__new_finish._M_node + 1, this->_M_impl._M_finish._M_node + 1);
 					this->_M_impl._M_finish = __new_finish;
 				}
@@ -724,22 +723,20 @@ namespace ft
 
 		void clear()
 		{
-			for (_Map_pointer __node = this->_M_impl._M_start._M_node + 1;
-				 __node < this->_M_impl._M_finish._M_node;
-				 ++__node)
+			for (_Map_pointer __node = this->_M_impl._M_start._M_node + 1; __node < this->_M_impl._M_finish._M_node; ++__node)
 			{
-				_Destroy(*__node, *__node + _S_buffer_size(), this->get_allocator());
+				ft::_Destroy(*__node, *__node + _S_buffer_size(), this->get_allocator());
 				_M_deallocate_node(*__node);
 			}
 
 			if (this->_M_impl._M_start._M_node != this->_M_impl._M_finish._M_node)
 			{
-				_Destroy(this->_M_impl._M_start._M_cur, this->_M_impl._M_start._M_last, this->get_allocator());
-				_Destroy(this->_M_impl._M_finish._M_first, this->_M_impl._M_finish._M_cur, this->get_allocator());
+				ft::_Destroy(this->_M_impl._M_start._M_cur, this->_M_impl._M_start._M_last, this->get_allocator());
+				ft::_Destroy(this->_M_impl._M_finish._M_first, this->_M_impl._M_finish._M_cur, this->get_allocator());
 				_M_deallocate_node(this->_M_impl._M_finish._M_first);
 			}
 			else
-				_Destroy(this->_M_impl._M_start._M_cur, this->_M_impl._M_finish._M_cur, this->get_allocator());
+				ft::_Destroy(this->_M_impl._M_start._M_cur, this->_M_impl._M_finish._M_cur, this->get_allocator());
 
 			this->_M_impl._M_finish = this->_M_impl._M_start;
 		}
@@ -788,15 +785,15 @@ namespace ft
 				for (__cur_node = this->_M_impl._M_start._M_node; __cur_node < this->_M_impl._M_finish._M_node; ++__cur_node)
 				{
 					_ForwardIterator __mid = __first;
-					advance(__mid, _S_buffer_size());
+					ft::advance(__mid, _S_buffer_size());
 					__uninitialized_copy_a(__first, __mid, *__cur_node, this->get_allocator());
 					__first = __mid;
 				}
-				__uninitialized_copy_a(__first, __last, this->_M_impl._M_finish._M_first, this->get_allocator());
+				ft::__uninitialized_copy_a(__first, __last, this->_M_impl._M_finish._M_first, this->get_allocator());
 			}
 			catch (...)
 			{
-				_Destroy(this->_M_impl._M_start, iterator(*__cur_node, __cur_node), this->get_allocator());
+				ft::_Destroy(this->_M_impl._M_start, iterator(*__cur_node, __cur_node), this->get_allocator());
 				throw;
 			}
 		}
@@ -807,12 +804,12 @@ namespace ft
 			try
 			{
 				for (__cur = this->_M_impl._M_start._M_node; __cur < this->_M_impl._M_finish._M_node; ++__cur)
-					__uninitialized_fill_a(*__cur, *__cur + _S_buffer_size(), __value, this->get_allocator());
-				__uninitialized_fill_a(this->_M_impl._M_finish._M_first, this->_M_impl._M_finish._M_cur, __value, this->get_allocator());
+					ft::__uninitialized_fill_a(*__cur, *__cur + _S_buffer_size(), __value, this->get_allocator());
+				ft::__uninitialized_fill_a(this->_M_impl._M_finish._M_first, this->_M_impl._M_finish._M_cur, __value, this->get_allocator());
 			}
 			catch (...)
 			{
-				_Destroy(this->_M_impl._M_start, iterator(*__cur, __cur), this->get_allocator());
+				ft::_Destroy(this->_M_impl._M_start, iterator(*__cur, __cur), this->get_allocator());
 				throw;
 			}
 		}

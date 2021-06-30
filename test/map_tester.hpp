@@ -366,11 +366,11 @@ void	map_test()
 	ormap['f'] = 34;
 	ormap['A'] = -134;
 	color_blue();
-	std::cout << "my map  -> lower_boud :  "<< (*mymap.lower_bound('c')).second << " upper_bound " << (*mymap.upper_bound('e')).second << "\n";
+	std::cout << "my map  -> lower_bound :  "<< (*mymap.lower_bound('c')).second << " upper_bound " << (*mymap.upper_bound('e')).second << "\n";
 	for (ft::map<char,int>::iterator it = mymap.begin(); it != mymap.end(); it++)
 		std::cout << "key : "<<(*it).first<<" value : "<<(*it).second<<std::endl;
 	color_red();
-	std::cout << "or map  -> lower_boud :  "<< (*ormap.lower_bound('c')).second << " upper_bound " << (*ormap.upper_bound('e')).second << "\n";
+	std::cout << "or map  -> lower_bound :  "<< (*ormap.lower_bound('c')).second << " upper_bound " << (*ormap.upper_bound('e')).second << "\n";
 	for (std::map<char,int>::iterator it = ormap.begin(); it != ormap.end(); it++)
 		std::cout << "key : "<<(*it).first<<" value : "<<(*it).second<<std::endl;
 	color_black();
@@ -378,11 +378,11 @@ void	map_test()
 	mymap.erase(mymap.lower_bound('c'), mymap.upper_bound('e'));
 	ormap.erase(ormap.lower_bound('c'), ormap.upper_bound('e'));
 	color_blue();
-	std::cout << "my map  -> lower_boud :  "<< (*mymap.lower_bound('c')).second << " upper_bound" << (*mymap.upper_bound('e')).second << "\n";
+	std::cout << "my map  -> lower_bound :  "<< (*mymap.lower_bound('c')).second << " upper_bound" << (*mymap.upper_bound('e')).second << "\n";
 	for (ft::map<char,int>::iterator it = mymap.begin(); it != mymap.end(); it++)
 		std::cout << "key : "<<(*it).first<<" value : "<<(*it).second<<std::endl;
 	color_red();
-	std::cout << "or map  -> lower_boud :  "<< (*ormap.lower_bound('c')).second << " upper_bound" << (*ormap.upper_bound('e')).second << "\n";
+	std::cout << "or map  -> lower_bound :  "<< (*ormap.lower_bound('c')).second << " upper_bound" << (*ormap.upper_bound('e')).second << "\n";
 	for (std::map<char,int>::iterator it = ormap.begin(); it != ormap.end(); it++)
 		std::cout << "key : "<<(*it).first<<" value : "<<(*it).second<<std::endl;
 	wait_input();

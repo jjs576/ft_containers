@@ -1,6 +1,8 @@
 #ifndef HEAP_HPP
 #define HEAP_HPP
 
+#include "iterator.hpp"
+
 namespace ft
 {
 	template <typename _RandomAccessIterator, typename _Distance>
@@ -34,13 +36,13 @@ namespace ft
 	template <typename _RandomAccessIterator>
 	bool __is_heap(_RandomAccessIterator __first, _RandomAccessIterator __last)
 	{
-		return __is_heap(__first, distance(__first, __last));
+		return __is_heap(__first, ft::distance(__first, __last));
 	}
 
 	template <typename _RandomAccessIterator, typename _StrictWeakOrdering>
 	bool __is_heap(_RandomAccessIterator __first, _RandomAccessIterator __last, _StrictWeakOrdering __comp)
 	{
-		return __is_heap(__first, __comp, distance(__first, __last));
+		return __is_heap(__first, __comp, ft::distance(__first, __last));
 	}
 
 	template <typename _RandomAccessIterator, typename _Distance, typename _Tp>
@@ -213,14 +215,14 @@ namespace ft
 	{
 
 		while (__last - __first > 1)
-			pop_heap(__first, __last--);
+			ft::pop_heap(__first, __last--);
 	}
 
 	template <typename _RandomAccessIterator, typename _Compare>
 	void sort_heap(_RandomAccessIterator __first, _RandomAccessIterator __last, _Compare __comp)
 	{
 		while (__last - __first > 1)
-			pop_heap(__first, __last--, __comp);
+			ft::pop_heap(__first, __last--, __comp);
 	}
 
 }

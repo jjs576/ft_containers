@@ -288,10 +288,10 @@ void	vector_test()
 	std::vector<std::string> ors1;
 	std::vector<std::string> ors2;
 
-	mys1.push_back("minsokim");
+	mys1.push_back("jjoo");
 	mys1.push_back("yepark");
 	mys1.push_back("yomoon");
-	mys1.push_back("jjoo");
+	mys1.push_back("minsokim");
 	mys1.push_back("soohchoi");
 
 	mys2.push_back("llim");
@@ -302,10 +302,10 @@ void	vector_test()
 	mys2.push_back("hyochoi");
 	mys2.push_back("jinykim");
 
-	ors1.push_back("minsokim");
+	ors1.push_back("jjoo");
 	ors1.push_back("yepark");
 	ors1.push_back("yomoon");
-	ors1.push_back("jjoo");
+	ors1.push_back("minsokim");
 	ors1.push_back("soohchoi");
 
 	ors2.push_back("llim");

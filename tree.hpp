@@ -309,19 +309,14 @@ namespace ft
 	{
 		_Rb_tree_node_base *&__root = __header._M_parent;
 
-		// Initialize fields in new node to insert.
 		__x->_M_parent = __p;
 		__x->_M_left = 0;
 		__x->_M_right = 0;
 		__x->_M_color = _S_red;
 
-		// Insert.
-		// Make new node child of parent and maintain root, leftmost and
-		// rightmost nodes.
-		// N.B. First node is always inserted left.
 		if (__insert_left)
 		{
-			__p->_M_left = __x; // also makes leftmost = __x when __p == &__header
+			__p->_M_left = __x;
 
 			if (__p == &__header)
 			{
@@ -329,16 +324,16 @@ namespace ft
 				__header._M_right = __x;
 			}
 			else if (__p == __header._M_left)
-				__header._M_left = __x; // maintain leftmost pointing to min node
+				__header._M_left = __x;
 		}
 		else
 		{
 			__p->_M_right = __x;
 
 			if (__p == __header._M_right)
-				__header._M_right = __x; // maintain rightmost pointing to max node
+				__header._M_right = __x;
 		}
-		// Rebalance.
+
 		while (__x != __root && __x->_M_parent->_M_color == _S_red)
 		{
 			_Rb_tree_node_base *const __xpp = __x->_M_parent->_M_parent;
@@ -437,7 +432,7 @@ namespace ft
 			__y = __z;
 		}
 		else
-		{ // __y == __z
+		{
 			__x_parent = __y->_M_parent;
 			if (__x)
 				__x->_M_parent = __y->_M_parent;
@@ -475,10 +470,7 @@ namespace ft
 						_Rb_tree_rotate_left(__x_parent, __root);
 						__w = __x_parent->_M_right;
 					}
-					if ((__w->_M_left == 0 ||
-						 __w->_M_left->_M_color == _S_black) &&
-						(__w->_M_right == 0 ||
-						 __w->_M_right->_M_color == _S_black))
+					if ((__w->_M_left == 0 || __w->_M_left->_M_color == _S_black) && (__w->_M_right == 0 || __w->_M_right->_M_color == _S_black))
 					{
 						__w->_M_color = _S_red;
 						__x = __x_parent;
@@ -511,10 +503,7 @@ namespace ft
 						_Rb_tree_rotate_right(__x_parent, __root);
 						__w = __x_parent->_M_left;
 					}
-					if ((__w->_M_right == 0 ||
-						 __w->_M_right->_M_color == _S_black) &&
-						(__w->_M_left == 0 ||
-						 __w->_M_left->_M_color == _S_black))
+					if ((__w->_M_right == 0 || __w->_M_right->_M_color == _S_black) && (__w->_M_left == 0 || __w->_M_left->_M_color == _S_black))
 					{
 						__w->_M_color = _S_red;
 						__x = __x_parent;

@@ -137,7 +137,7 @@ namespace ft
 				{
 					copy(__x.begin(), __x.begin() + size(),
 							  this->_M_impl._M_start);
-					__uninitialized_copy_a(__x.begin() + size(), __x.end(), this->_M_impl._M_finish, this->get_allocator());
+					ft::__uninitialized_copy_a(__x.begin() + size(), __x.end(), this->_M_impl._M_finish, this->get_allocator());
 				}
 				this->_M_impl._M_finish = this->_M_impl._M_start + __xlen;
 			}

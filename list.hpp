@@ -2,100 +2,98 @@
 #define LIST_HPP
 
 #include <memory>
-#include "type_traits"
+#include "type_traits.hpp"
 #include "iterator.hpp"
 #include "algorithm.hpp"
 
 namespace ft
 {
-	namespace node
+	struct _List_node_base
 	{
-		struct _List_node_base
-		{
-			_List_node_base *_M_next;
-			_List_node_base *_M_prev;
+		_List_node_base *_M_next;
+		_List_node_base *_M_prev;
 
-			static void swap(_List_node_base &__x, _List_node_base &__y)
+		static void swap(_List_node_base &__x, _List_node_base &__y)
+		{
+			if (__x._M_next != &__x)
 			{
-				if (__x._M_next != &__x)
+				if (__y._M_next != &__y)
 				{
-					if (__y._M_next != &__y)
-					{
-						ft::swap(__x._M_next, __y._M_next);
-						ft::swap(__x._M_prev, __y._M_prev);
-						__x._M_next->_M_prev = __x._M_prev->_M_next = &__x;
-						__y._M_next->_M_prev = __y._M_prev->_M_next = &__y;
-					}
-					else
-					{
-						__y._M_next = __x._M_next;
-						__y._M_prev = __x._M_prev;
-						__y._M_next->_M_prev = __y._M_prev->_M_next = &__y;
-						__x._M_next = __x._M_prev = &__x;
-					}
-				}
-				else if (__y._M_next != &__y)
-				{
-					__x._M_next = __y._M_next;
-					__x._M_prev = __y._M_prev;
+					ft::swap(__x._M_next, __y._M_next);
+					ft::swap(__x._M_prev, __y._M_prev);
 					__x._M_next->_M_prev = __x._M_prev->_M_next = &__x;
-					__y._M_next = __y._M_prev = &__y;
+					__y._M_next->_M_prev = __y._M_prev->_M_next = &__y;
+				}
+				else
+				{
+					__y._M_next = __x._M_next;
+					__y._M_prev = __x._M_prev;
+					__y._M_next->_M_prev = __y._M_prev->_M_next = &__y;
+					__x._M_next = __x._M_prev = &__x;
 				}
 			}
-
-			void transfer(_List_node_base *const __first, _List_node_base *const __last)
+			else if (__y._M_next != &__y)
 			{
-				if (this != __last)
-				{
-					__last->_M_prev->_M_next = this;
-					__first->_M_prev->_M_next = __last;
-					this->_M_prev->_M_next = __first;
-
-					_List_node_base *const __tmp = this->_M_prev;
-					this->_M_prev = __last->_M_prev;
-					__last->_M_prev = __first->_M_prev;
-					__first->_M_prev = __tmp;
-				}
+				__x._M_next = __y._M_next;
+				__x._M_prev = __y._M_prev;
+				__x._M_next->_M_prev = __x._M_prev->_M_next = &__x;
+				__y._M_next = __y._M_prev = &__y;
 			}
+		}
 
-			void reverse()
-			{
-				_List_node_base *__tmp = this;
-				do
-				{
-					ft::swap(__tmp->_M_next, __tmp->_M_prev);
-					__tmp = __tmp->_M_prev;
-				} while (__tmp != this);
-			}
-
-			void hook(_List_node_base *const __position)
-			{
-				this->_M_next = __position;
-				this->_M_prev = __position->_M_prev;
-				__position->_M_prev->_M_next = this;
-				__position->_M_prev = this;
-			}
-
-			void unhook()
-			{
-				_List_node_base *const __next_node = this->_M_next;
-				_List_node_base *const __prev_node = this->_M_prev;
-				__prev_node->_M_next = __next_node;
-				__next_node->_M_prev = __prev_node;
-			}
-		};
-
-		template <typename _Tp>
-		struct _List_node : public _List_node_base
+		void transfer(_List_node_base *const __first, _List_node_base *const __last)
 		{
-			_Tp _M_data;
-		};
-	}
+			if (this != __last)
+			{
+				__last->_M_prev->_M_next = this;
+				__first->_M_prev->_M_next = __last;
+				this->_M_prev->_M_next = __first;
+
+				_List_node_base *const __tmp = this->_M_prev;
+				this->_M_prev = __last->_M_prev;
+				__last->_M_prev = __first->_M_prev;
+				__first->_M_prev = __tmp;
+			}
+		}
+
+		void reverse()
+		{
+			_List_node_base *__tmp = this;
+			do
+			{
+				ft::swap(__tmp->_M_next, __tmp->_M_prev);
+				__tmp = __tmp->_M_prev;
+			} while (__tmp != this);
+		}
+
+		void hook(_List_node_base *const __position)
+		{
+			this->_M_next = __position;
+			this->_M_prev = __position->_M_prev;
+			__position->_M_prev->_M_next = this;
+			__position->_M_prev = this;
+		}
+
+		void unhook()
+		{
+			_List_node_base *const __next_node = this->_M_next;
+			_List_node_base *const __prev_node = this->_M_prev;
+			__prev_node->_M_next = __next_node;
+			__next_node->_M_prev = __prev_node;
+		}
+	};
+
+	template <typename _Tp>
+	struct _List_node : public _List_node_base
+	{
+		_Tp _M_data;
+	};
+
 	template <typename _Tp>
 	struct _List_iterator
 	{
 		typedef _List_iterator<_Tp> _Self;
-		typedef node::_List_node<_Tp> _Node;
+		typedef _List_node<_Tp> _Node;
 
 		typedef ptrdiff_t difference_type;
 		typedef bidirectional_iterator_tag iterator_category;
@@ -105,7 +103,7 @@ namespace ft
 
 		_List_iterator() : _M_node() {}
 
-		_List_iterator(node::_List_node_base *__x) : _M_node(__x) {}
+		_List_iterator(_List_node_base *__x) : _M_node(__x) {}
 
 		reference operator*() const
 		{
@@ -153,14 +151,14 @@ namespace ft
 			return _M_node != __x._M_node;
 		}
 
-		node::_List_node_base *_M_node;
+		_List_node_base *_M_node;
 	};
 
 	template <typename _Tp>
 	struct _List_const_iterator
 	{
 		typedef _List_const_iterator<_Tp> _Self;
-		typedef const node::_List_node<_Tp> _Node;
+		typedef const _List_node<_Tp> _Node;
 		typedef _List_iterator<_Tp> iterator;
 
 		typedef ptrdiff_t difference_type;
@@ -171,7 +169,7 @@ namespace ft
 
 		_List_const_iterator() : _M_node() {}
 
-		_List_const_iterator(const node::_List_node_base *__x) : _M_node(__x) {}
+		_List_const_iterator(const _List_node_base *__x) : _M_node(__x) {}
 
 		_List_const_iterator(const iterator &__x) : _M_node(__x._M_node) {}
 		reference operator*() const
@@ -220,7 +218,7 @@ namespace ft
 			return _M_node != __x._M_node;
 		}
 
-		const node::_List_node_base *_M_node;
+		const _List_node_base *_M_node;
 	};
 
 	template <typename _Val>
@@ -241,23 +239,23 @@ namespace ft
 	class _List_base
 	{
 	protected:
-		typedef typename _Alloc::template rebind<node::_List_node<_Tp> >::other _Node_Alloc_type;
+		typedef typename _Alloc::template rebind<_List_node<_Tp> >::other _Node_Alloc_type;
 
 		struct _List_impl : public _Node_Alloc_type
 		{
-			node::_List_node_base _M_node;
+			_List_node_base _M_node;
 			_List_impl(const _Node_Alloc_type &__a) : _Node_Alloc_type(__a) {}
 		};
 
 		_List_impl _M_impl;
 
-		node::_List_node<_Tp> *_M_get_node()
+		_List_node<_Tp> *_M_get_node()
 		{
 			return _M_impl._Node_Alloc_type::allocate(1);
 		}
 
 		void
-		_M_put_node(node::_List_node<_Tp> *__p)
+		_M_put_node(_List_node<_Tp> *__p)
 		{
 			_M_impl._Node_Alloc_type::deallocate(__p, 1);
 		}
@@ -282,7 +280,7 @@ namespace ft
 
 		void _M_clear()
 		{
-			typedef node::_List_node<_Tp> _Node;
+			typedef _List_node<_Tp> _Node;
 			_Node *__cur = static_cast<_Node *>(this->_M_impl._M_node._M_next);
 			while (__cur != &this->_M_impl._M_node)
 			{
@@ -320,7 +318,7 @@ namespace ft
 		typedef typename _Base::allocator_type allocator_type;
 
 	protected:
-		typedef node::_List_node<_Tp> _Node;
+		typedef _List_node<_Tp> _Node;
 
 		using _Base::_M_get_node;
 		using _Base::_M_impl;
@@ -411,7 +409,10 @@ namespace ft
 			return this->_M_impl._M_node._M_next;
 		}
 
-		iterator end() { return &this->_M_impl._M_node; }
+		iterator end()
+		{
+			return &this->_M_impl._M_node;
+		}
 
 		const_iterator end() const
 		{
@@ -445,7 +446,7 @@ namespace ft
 
 		size_type size() const
 		{
-			return distance(begin(), end());
+			return ft::distance(begin(), end());
 		}
 
 		size_type max_size() const
@@ -550,7 +551,7 @@ namespace ft
 
 		void swap(list &__x)
 		{
-			node::_List_node_base::swap(this->_M_impl._M_node, __x._M_impl._M_node);
+			_List_node_base::swap(this->_M_impl._M_node, __x._M_impl._M_node);
 		}
 
 		void clear()
